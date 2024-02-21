@@ -1,95 +1,69 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+'use client';
+import Images from 'next/image'
+import '@/app/Styles/globals.css'
+import styles from '@/app/Styles/page.module.css'
+import DisplayImage from './Components/DisplayImage'
+import ColorThief from 'colorthief'
+import { useState } from 'react'
+
+const gallery = <i className='fas fa-images'></i>
 
 export default function Home() {
+
+  // definicion de estados
+
+  const [imgCargada, setImgCargada] = useState(null);
+  const [colorPalette, setColorPalette] = useState(null);
+
+  const cargarImg = (e) => {
+    
+    const file = e.target.files[0]
+    const reader = new FileReader()
+
+    reader.onload = async (event) => {
+      const img = new Image();
+      
+      img.onload = () => {
+        
+        const colorThief = new ColorThief();
+        const colorPalette = colorThief.getPalette(img, 6);
+
+        setImgCargada(event.target.result);
+        setColorPalette(colorPalette);
+      }
+
+      img.src = event.target.result;
+    }
+
+
+    reader.readAsDataURL(file);
+  }
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <>
+    <head>
+      <title>Palette Generator</title>
+      <meta name='description'/>
+      <meta name='viewport' content='width=device-width, initial-scale=1'/>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerPolicy="no-referrer" />
+      
+    </head>
+    <body>
+      <header>
+        <h1> PALETTE GENERATOR</h1>
+        <div className="input">
+          <label htmlFor="file">{gallery}  Cargar Imagen</label>
+          <input type="file" id='file' hidden onChange={cargarImg}/>
         </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+      </header>
+      <main className={styles.main}>
+        <DisplayImage
+          imgCargada={imgCargada}
+          colorPalette={colorPalette}
         />
-      </div>
+      </main>
+    </body>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </>
   )
 }
