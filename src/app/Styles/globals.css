@@ -45,6 +45,7 @@ header .input{
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
 }
 
 .input label{
@@ -86,3 +87,73 @@ header .input{
     border-radius: 0.5rem;
 }
 
+
+/*=============== BREAKPOINTS ===============*/
+/* For large devices */
+@media screen and (max-width: 992px) {
+    header h1{
+        font-size: 40px;
+    }
+    header .input{
+        font-size: 30px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+      
+    }
+    .image{
+        width: 100%;
+    }
+	
+}
+
+/* For medium devices */
+@media screen and (max-width: 768px) {
+    header h1{
+        font-size: 30px;
+    }
+    header .input{
+        font-size: 10px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+      
+    }
+    .image{
+        width: 100%;
+    }
+  
+}
+
+@media screen and (max-width: 576px) {
+    header h1{
+        font-size: 30px;
+    }
+    header .input{
+        font-size: 10px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+      
+    }
+    .image{
+        width: 100%;
+    }
+}
+
+/* For small devices */
+@media screen and (max-width: 350px) {
+    header h1{
+        font-size: 10px;
+    }
+    header .input{
+        font-size: 10px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        margin-right: 300px;
+    }
+    .image{
+        width: 100%;
+    }
+}
